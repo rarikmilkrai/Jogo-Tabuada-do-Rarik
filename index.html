@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jogo de Tabuada Matemática</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <h1>Jogo de Matemática do Rarik</h1>
+    <div id="score-container">
+      <p id="score-text">Placar: <span id="current-score">0</span>/<span id="total-questions"></span></p>
+    </div>
+    <div id="question-container">
+      <h2 id="equation">valor | operador | valor = ?</h2>
+      <ul id="choices"></ul>
+    </div>
+    <div id="result-container">
+      <h3 id="result-text"></h3>
+    </div>
+  </div>
+  <script>
+    const operations = ['+', '-', '*', '/']; // Operações matemáticas
+    const maxNumber = 10; // Número máximo para gerar as perguntas da tabuada
+    const questions = generateQuestions(maxNumber); // Gerar perguntas com base na tabuada
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const equationTextElement = document.getElementById('equation');
+    const choicesElement = document.getElementById('choices');
+    const resultElement = document.getElementById('result-text');
+    const currentScoreElement = document.getElementById('current-score');
+    const totalQuestionsElement = document.getElementById('total-questions');
+
+    totalQuestionsElement.textContent = questions.length;
+
+    function generateQuestions(maxNumber) {
+      const generatedQuestions = [];
+      while (generatedQuestions.length < 50) {
+        const num1 = Math.floor(Math.random() * maxNumber) + 1;
+        const num2 = Math.floor(Math.random() * maxNumber) + 1;
+        const operation = operations[Math.floor(Math.random() * operations.length)];
+        const question = {
+          equation: `${num1} ${operation} ${num2}`,
+          choices: generateChoices(num1, num2, operation),
+          correctChoice: calculateCorrectChoice(num1, num2, operation),
+        };
+        generatedQuestions.push(question);
+      }
+      return generatedQuestions;
+    }
+
+    function generateChoices(num1, num2, operation) {
+      const choices = [];
+      const correctChoice = calculateCorrectChoice(num1, num2, operation);
+      choices.push(correctChoice.toString());
+      while (choices.length < 3) {
+        const randomChoice = generateRandomChoice(num1, num2, operation);
+        if (!choices.includes(randomChoice.toString())) {
+          choices.push(randomChoice.toString());
+        }
+      }
+      return shuffleArray(choices);
+    }
+
+    function calculateCorrectChoice(num1, num2, operation) {
+      let result;
+      switch (operation) {
+        case '+':
+          result = num1 + num2;
+          break;
+        case '-':
+          result = num1 - num2;
+          break;
+        case '*':
+          result = num1 * num2;
+          break;
+        case '/':
+          result = num1 / num2;
+        break;
+      }
+      return result;
+    }
+
+    function generateRandomChoice(num1, num2, operation) {
+      const randomNumber = Math.floor(Math.random() * maxNumber) + 1;
+      let randomChoice;
+      switch (operation) {
+        case '+':
+          randomChoice = num1 + num2 - randomNumber;
+          break;
+        case '-':
+          randomChoice = num1 - num2 + randomNumber;
+          break;
+        case '*':
+          randomChoice = num1 * num2 + randomNumber;
+          break;
+        case '/':
+          randomChoice = (num1 / num2) * randomNumber;
+          break;
+      }
+      return randomChoice;
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function showQuestion() {
+      const currentQuestion = questions[currentQuestionIndex];
+
+      equationTextElement.textContent = currentQuestion.equation;
+
+      choicesElement.innerHTML = '';
+
+      currentQuestion.choices.forEach((choice, index) => {
+        const choiceButton = document.createElement('button');
+        choiceButton.textContent = choice;
+        choiceButton.classList.add('choice');
+        choiceButton.addEventListener('click', () => handleChoiceClick(choice, currentQuestion.correctChoice));
+        choicesElement.appendChild(choiceButton);
+      });
+    }
+
+    function handleChoiceClick(choice, correctChoice) {
+      if (choice === correctChoice.toString()) {
+        score++;
+        resultElement.textContent = 'Resposta correta!';
+        currentScoreElement.textContent = score; // Atualiza o placar atual
+        currentQuestionIndex++;
+        if (currentQuestionIndex === questions.length) {
+          currentQuestionIndex = 0; // Reinicia o índice para a próxima rodada de perguntas
+          showQuestion();
+        } else {
+          showQuestion();
+        }
+      } else {
+        resultElement.textContent = `Resposta incorreta! Sinto muito, você errou. Seu placar é: ${score}/${questions.length}.`;
+        choicesElement.innerHTML = '';
+
+        const restartButton = document.createElement('button');
+        restartButton.textContent = 'Jogar Novamente?';
+        restartButton.classList.add('restart');
+        restartButton.addEventListener('click', () => restartGame());
+        choicesElement.appendChild(restartButton);
+      }
+    }
+
+    function restartGame() {
+      currentQuestionIndex = 0;
+      score = 0;
+      resultElement.textContent = '';
+      currentScoreElement.textContent = score; // Reinicia o placar para zero
+      showQuestion();
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
