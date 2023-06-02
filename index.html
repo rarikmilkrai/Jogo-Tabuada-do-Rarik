@@ -145,6 +145,8 @@ function handleChoiceClick(choice, correctChoice) {
     currentScoreElement.textContent = score; // Atualiza o placar atual
   } else {
     resultElement.textContent = `Resposta incorreta! Sinto muito, você errou. Seu placar é: ${score}/${questions.length}.`;
+    showResult(); // Exibe o placar final e pergunta se deseja jogar novamente
+    return; // Interrompe o código, impedindo a próxima pergunta de ser exibida
   }
 
   currentQuestionIndex++;
