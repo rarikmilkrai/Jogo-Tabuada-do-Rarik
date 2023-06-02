@@ -10,6 +10,7 @@ body {
 
 #game-container {
   max-width: 500px;
+  width: 90%; /* Adiciona uma largura responsiva */
   margin: 0 auto;
   padding: 20px;
 }
@@ -64,9 +65,12 @@ button:hover {
 }
 
 #animation-container {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 200px;
+  height: 100%;
+  z-index: -1; /* Coloca o contêiner de animação atrás do jogo */
   overflow: hidden;
 }
 
@@ -74,14 +78,16 @@ button:hover {
   position: absolute;
   top: 0;
   left: 0;
-  animation: moveTabuada 5s linear infinite;
+  width: 100%;
+  height: 100%;
+  animation: moveNumbers 5s linear infinite;
 }
 
-@keyframes moveTabuada {
+@keyframes moveNumbers {
   0% {
-    transform: translateX(-100%);
+    transform: translateY(-100%);
   }
   100% {
-    transform: translateX(100%);
+    transform: translateY(100%);
   }
 }
