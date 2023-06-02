@@ -1,19 +1,23 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #eaf2f8; /* Altera a cor de fundo para azul claro */
+  background-color: #eaf2f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 #game-container {
   max-width: 500px;
   margin: 0 auto;
-  padding: 20px; /* Adiciona um espaçamento interno */
+  padding: 20px;
 }
 
 h1 {
   color: #333;
-  font-size: 24px; /* Aumenta o tamanho da fonte do título */
-  margin-bottom: 20px; /* Adiciona um espaçamento inferior */
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 #question-container {
@@ -29,12 +33,12 @@ h1 {
 }
 
 #choices li {
-  margin: 10px;
+  margin: 15px;
 }
 
 button {
-  font-size: 20px; /* Aumenta o tamanho da fonte dos botões */
-  padding: 12px 24px; /* Aumenta o espaçamento interno dos botões */
+  font-size: 20px;
+  padding: 12px 24px;
   background-color: #4caf50;
   color: #fff;
   border: none;
