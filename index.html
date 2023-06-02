@@ -79,7 +79,12 @@ function calculateCorrectChoice(num1, num2, operation) {
           result = num1 * num2;
           break;
         case '/':
-          result = (num1 / num2).toFixed(2);
+          result = (num1 / num2);
+          if (Number.isInteger(result)) { // Verifica se o resultado é um número inteiro
+            result = Math.floor(result); // Arredonda para baixo se for inteiro
+          } else {
+            result = result.toFixed(2); // Define o número de casas decimais como 2 se for float
+          }
           break;
       }
       return result;
@@ -98,7 +103,12 @@ function calculateCorrectChoice(num1, num2, operation) {
       randomChoice = num1 * num2 + randomNumber;
       break;
     case '/':
-      randomChoice = ((num1 / num2) * randomNumber).toFixed(2);
+      randomChoice = (num1 / num2) * randomNumber;
+      if (Number.isInteger(randomChoice)) { // Verifica se o resultado é um número inteiro
+        randomChoice = Math.floor(randomChoice); // Arredonda para baixo se for inteiro
+      } else {
+        randomChoice = randomChoice.toFixed(2); // Define o número de casas decimais como 2 se for float
+      }
       break;
   }
   return randomChoice;
@@ -171,4 +181,4 @@ showQuestion();
   </script>
  </body>
 </html>
-// Resto do código (funções shuffleArray, showQuestion, handleChoiceClick, showResult, restartGame)
+
