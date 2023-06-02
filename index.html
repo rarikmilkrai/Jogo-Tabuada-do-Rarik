@@ -33,18 +33,16 @@
 
     totalQuestionsElement.textContent = questions.length;
 
-    function generateQuestions(maxNumber) {
-      const generatedQuestions = [];
-      while (generatedQuestions.length < 100) {
-        const num1 = Math.floor(Math.random() * maxNumber) + 1;
-        const num2 = Math.floor(Math.random() * maxNumber) + 1;
-        const operation = operations[Math.floor(Math.random() * operations.length)];
-        const question = {
-          equation: `${num1} ${operation} ${num2}`,
-          choices: generateChoices(num1, num2, operation),
-          correctChoice: calculateCorrectChoice(num1, num2, operation),
-        };
-        generatedQuestions.push(question);
+   function generateQuestion(maxNumber) {
+    const num1 = Math.floor(Math.random() * maxNumber) + 1;
+    const num2 = Math.floor(Math.random() * maxNumber) + 1;
+    const operation = operations[Math.floor(Math.random() * operations.length)];
+    const question = {
+      equation: `${num1} ${operation} ${num2}`,
+      choices: generateChoices(num1, num2, operation),
+      correctChoice: calculateCorrectChoice(num1, num2, operation),
+  };
+   return question;
       }
       return generatedQuestions;
     }
