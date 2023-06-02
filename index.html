@@ -73,7 +73,7 @@
           result = num1 * num2;
           break;
         case '/':
-          result = num1 / num2;
+          result = (num1 / num2).toFixed(2);
         break;
       }
       return result;
@@ -93,7 +93,7 @@
           randomChoice = num1 * num2 + randomNumber;
           break;
         case '/':
-          randomChoice = (num1 / num2) * randomNumber;
+          randomChoice = ((num1 / num2) * randomNumber).toFixed(2);
           break;
       }
       return randomChoice;
