@@ -33,18 +33,25 @@
 
     totalQuestionsElement.textContent = questions.length;
 
-   function generateQuestion(maxNumber) {
-    const num1 = Math.floor(Math.random() * maxNumber) + 1;
-    const num2 = Math.floor(Math.random() * maxNumber) + 1;
-    const operation = operations[Math.floor(Math.random() * operations.length)];
-    const question = {
-      equation: `${num1} ${operation} ${num2}`,
-      choices: generateChoices(num1, num2, operation),
-      correctChoice: calculateCorrectChoice(num1, num2, operation),
-  };
-   return question;
+    function generateQuestions(maxNumber) {
+      const generatedQuestions = [];
+      for (let i = 0; i < 10; i++) {
+        const question = generateQuestion(maxNumber);
+        generatedQuestions.push(question);
       }
       return generatedQuestions;
+    }
+
+    function generateQuestion(maxNumber) {
+      const num1 = Math.floor(Math.random() * maxNumber) + 1;
+      const num2 = Math.floor(Math.random() * maxNumber) + 1;
+      const operation = operations[Math.floor(Math.random() * operations.length)];
+      const question = {
+        equation: `${num1} ${operation} ${num2}`,
+        choices: generateChoices(num1, num2, operation),
+        correctChoice: calculateCorrectChoice(num1, num2, operation),
+      };
+      return question;
     }
 
     function generateChoices(num1, num2, operation) {
@@ -74,7 +81,7 @@
           break;
         case '/':
           result = (num1 / num2).toFixed(2);
-        break;
+          break;
       }
       return result;
     }
@@ -128,23 +135,30 @@
         score++;
         resultElement.textContent = 'Resposta correta!';
         currentScoreElement.textContent = score; // Atualiza o placar atual
-        currentQuestionIndex++;
-        if (currentQuestionIndex === questions.length) {
-          currentQuestionIndex = 0; // Reinicia o índice para a próxima rodada de perguntas
-          showQuestion();
-        } else {
-          showQuestion();
-        }
       } else {
         resultElement.textContent = `Resposta incorreta! Sinto muito, você errou. Seu placar é: ${score}/${questions.length}.`;
-        choicesElement.innerHTML = '';
-
-        const restartButton = document.createElement('button');
-        restartButton.textContent = 'Jogar Novamente?';
-        restartButton.classList.add('restart');
-        restartButton.addEventListener('click', () => restartGame());
-        choicesElement.appendChild(restartButton);
       }
+
+      currentQuestionIndex++;
+      if (currentQuestionIndex === questions.length) {
+        showResult();
+      } else {
+        showQuestion();
+      }
+    }
+
+    function showResult() {
+      equationTextElement.textContent = '';
+      choicesElement.innerHTML = '';
+
+      const finalScore = `${score}/${questions.length}`;
+      resultElement.textContent = `Fim do jogo! Seu placar final é: ${finalScore}`;
+
+      const restartButton = document.createElement('button');
+      restartButton.textContent = 'Jogar Novamente?';
+      restartButton.classList.add('restart');
+      restartButton.addEventListener('click', () => restartGame());
+      choicesElement.appendChild(restartButton);
     }
 
     function restartGame() {
